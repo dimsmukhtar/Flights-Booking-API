@@ -1,6 +1,6 @@
 ##### This is a base backend Node.js (Express.js) project template that anyone can use. It has been designed with essential coding principles and project management recommendations for best practices in mind. The structure is designed to be ORM-agnostic, meaning you can use any ORM such as Sequelize, Prisma, Mongoose, or TypeORM or any other ORM. In this case, the project is configured with Sequelize by default. Feel free to modify it as needed.
 
-`src/` -> Inside the src folder, all the actual source code regarding the project will reside, this will not include any kind of tests. (You might want to make separate tests folder)
+`src/` -> Inside the src folder, all the actual source code regarding the project will reside.
 
 Lets take a look inside the `src` folder
 
