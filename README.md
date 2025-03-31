@@ -14,7 +14,7 @@ Lets take a look inside the `src` folder
 - `utils/` -> This folder includes utility functions, custom error classes, and other reusable helper methods.
 - `docs/` -> API documentation.
 - `tests/` -> Contains unit and integration tests.
-- `database/` -> This folder organizes all database-related files in one place. It helps maintain a structured and scalable database management approach. Lets take a look inside the `database` folder
+- `database/` -> This folder organizes all database-related files in one place. It helps maintain a structured and scalable database management approach. In this case, the project is configured with Sequelize so there's 4 folders from sequelize-cli generated. Lets take a look inside the `database` folder. Feel free to modify it as needed with the ORM you used.
 
   - `config/` -> Contains Sequelize database configuration files, such as config.json or you can modify it like config.js, which define database connection settings for different environments.
   - `models/` -> This folder contains Sequelize models, which define the structure of database tables and relationships between them. Each model corresponds to a database table and is used to interact with the database programmatically.
