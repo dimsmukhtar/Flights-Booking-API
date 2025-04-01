@@ -51,9 +51,22 @@ async function deleteAirplane(id) {
   }
 }
 
+async function updateAirplane(id, data) {
+  try {
+    const airplane = await airplaneRepository.update(id, data, "Airplane")
+    return airplane
+  } catch (error) {
+    if (error.statusCode === 404) {
+      throw new AppError(error, error.statusCode)
+    }
+    throw new AppError("Error while deleting the airplane", 500)
+  }
+}
+
 module.exports = {
   createAirplane,
   getAirplanes,
   getAirplane,
   deleteAirplane,
+  updateAirplane,
 }

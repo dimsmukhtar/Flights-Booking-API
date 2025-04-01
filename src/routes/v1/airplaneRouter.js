@@ -9,6 +9,10 @@ router
   .post(AirplaneMiddlewares.validateCreateRequest, AirplaneController.createAirplane)
   .get(AirplaneController.getAirplanes)
 
-router.route("/:id").get(AirplaneController.getAirplane).delete(AirplaneController.deleteAirplane)
+router
+  .route("/:id")
+  .get(AirplaneController.getAirplane)
+  .delete(AirplaneController.deleteAirplane)
+  .patch(AirplaneController.updateAirplane)
 
 module.exports = router
