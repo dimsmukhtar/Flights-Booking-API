@@ -15,7 +15,7 @@ async function createAirplane(data) {
       })
       throw new AppError(explanation, 400)
     }
-    throw new AppError("Error cannot create a new Airplane object", 500)
+    throw new AppError("Error while creating the airplane", 500)
   }
 }
 
@@ -24,7 +24,7 @@ async function getAirplanes() {
     const airplanes = await airplaneRepository.getAll()
     return airplanes
   } catch (error) {
-    throw new AppError("Error cannot fetch all of the data from the airplanes", 500)
+    throw new AppError("Error while fetching the airplanes", 500)
   }
 }
 async function getAirplane(id) {
@@ -35,7 +35,19 @@ async function getAirplane(id) {
     if (error.statusCode === 404) {
       throw new AppError(error, error.statusCode)
     }
-    throw new AppError("Error cannot fetch the data from the airplane", 500)
+    throw new AppError("Error while fetching the airplane", 500)
+  }
+}
+
+async function deleteAirplane(id) {
+  try {
+    const airplane = await airplaneRepository.destroy(id)
+    return airplane
+  } catch (error) {
+    if (error.statusCode === 404) {
+      throw new AppError(error, error.statusCode)
+    }
+    throw new AppError("Error while deleting the airplane", 500)
   }
 }
 
@@ -43,4 +55,5 @@ module.exports = {
   createAirplane,
   getAirplanes,
   getAirplane,
+  deleteAirplane,
 }
