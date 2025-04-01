@@ -10,18 +10,18 @@ class CrudRepository {
     const response = await this.model.create(data)
     return response
   }
-  async destroy(data) {
+  async destroy(data, name) {
     const response = await this.model.destroy({ where: { id: data } })
     if (!response) {
-      throw new AppError(`Error deleting the airplane, id ${data} are not found`, 404)
+      throw new AppError(`Error deleting the ${name}, id ${data} are not found`, 404)
     }
     return response
   }
-  async get(data) {
+  async get(data, name) {
     const response = await this.model.findByPk(data)
 
     if (!response) {
-      throw new AppError(`Error getting the airplane, id ${data} are not found`, 404)
+      throw new AppError(`Error getting the ${name}, id ${data} are not found`, 404)
     }
     return response
   }

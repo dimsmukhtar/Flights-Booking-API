@@ -29,7 +29,7 @@ async function getAirplanes() {
 }
 async function getAirplane(id) {
   try {
-    const airplane = await airplaneRepository.get(id)
+    const airplane = await airplaneRepository.get(id, "Airplane")
     return airplane
   } catch (error) {
     if (error.statusCode === 404) {
@@ -41,7 +41,7 @@ async function getAirplane(id) {
 
 async function deleteAirplane(id) {
   try {
-    const airplane = await airplaneRepository.destroy(id)
+    const airplane = await airplaneRepository.destroy(id, "Airplane")
     return airplane
   } catch (error) {
     if (error.statusCode === 404) {
