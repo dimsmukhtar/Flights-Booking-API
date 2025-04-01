@@ -1,7 +1,8 @@
 const router = require("express").Router()
 
 const { CityController } = require("../../controllers")
+const { CityMiddlewares } = require("../../middlewares")
 
-router.route("/").post(CityController.createCity)
+router.route("/").post(CityMiddlewares.validateCreateRequest, CityController.createCity)
 
 module.exports = router
