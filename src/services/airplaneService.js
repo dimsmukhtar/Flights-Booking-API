@@ -19,16 +19,28 @@ async function createAirplane(data) {
   }
 }
 
-async function getAirplanes(params) {
+async function getAirplanes() {
   try {
     const airplanes = await airplaneRepository.getAll()
     return airplanes
   } catch (error) {
-    throw new AppError("Error cannot fetch all of the data from the airplane", 500)
+    throw new AppError("Error cannot fetch all of the data from the airplanes", 500)
+  }
+}
+async function getAirplane(id) {
+  try {
+    const airplane = await airplaneRepository.get(id)
+    return airplane
+  } catch (error) {
+    if (error.statusCode === 404) {
+      throw new AppError(error, error.statusCode)
+    }
+    throw new AppError("Error cannot fetch the data from the airplane", 500)
   }
 }
 
 module.exports = {
   createAirplane,
   getAirplanes,
+  getAirplane,
 }

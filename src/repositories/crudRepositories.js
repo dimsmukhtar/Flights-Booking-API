@@ -1,4 +1,5 @@
 const { Logger } = require("../settings")
+const AppError = require("../utils/errors/appError")
 
 class CrudRepository {
   constructor(model) {
@@ -15,6 +16,9 @@ class CrudRepository {
   }
   async get(data) {
     const response = await this.model.findByPk(data)
+    if (!response) {
+      throw new AppError(`Error cannot fetch the data from the airplane, with id ${data}`, 404)
+    }
     return response
   }
   async getAll() {
