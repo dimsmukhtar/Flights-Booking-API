@@ -1,7 +1,7 @@
 const router = require("express").Router()
 
-router.get("/info", (req, res) => {
-  return res.json({ message: "coming from v1 api" })
-})
+const airplaneRouter = require("./airplaneRouter")
+
+router.use("/airplanes", airplaneRouter)
 
 module.exports = router
