@@ -40,4 +40,11 @@ async function getCity(id) {
   }
 }
 
+async function deleteCity(id) {
+  try {
+  } catch (error) {
+    throw new AppError(error.message, error.statusCode)
+  }
+}
+
 module.exports = { createCity, getCities, getCity }

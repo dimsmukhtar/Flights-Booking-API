@@ -1,7 +1,8 @@
 const router = require("express").Router()
 
+const { Airplane } = require("../../database/models")
 const { AirplaneController } = require("../../controllers")
-const { AirplaneMiddlewares } = require("../../middlewares")
+const { AirplaneMiddlewares, ValidateId } = require("../../middlewares")
 
 // api/v1/airplanes
 router
@@ -11,8 +12,8 @@ router
 
 router
   .route("/:id")
-  .get(AirplaneController.getAirplane)
-  .delete(AirplaneController.deleteAirplane)
-  .patch(AirplaneController.updateAirplane)
+  .get(ValidateId(Airplane), AirplaneController.getAirplane)
+  .delete(ValidateId(Airplane), AirplaneController.deleteAirplane)
+  .patch(ValidateId(Airplane), AirplaneController.updateAirplane)
 
 module.exports = router
