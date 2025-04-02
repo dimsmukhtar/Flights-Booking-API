@@ -1,4 +1,4 @@
-const { AppError } = require("../utils/errors")
+const AppError = require("../utils/errors/appError")
 
 const validateId = (db) => async (req, res, next) => {
   try {

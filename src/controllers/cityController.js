@@ -1,5 +1,5 @@
 const { CityService } = require("../services")
-const { SuccessResponse, ErrorResponse } = require("../utils/common")
+const { SuccessResponse } = require("../utils/common")
 const AppError = require("../utils/errors/appError")
 
 async function createCity(req, res, next) {

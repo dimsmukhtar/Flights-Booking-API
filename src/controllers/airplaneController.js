@@ -1,6 +1,6 @@
 const { AirplaneService } = require("../services")
 const { SuccessResponse } = require("../utils/common")
-const { AppError } = require("../utils/errors")
+const AppError = require("../utils/errors/appError")
 
 async function createAirplane(req, res, next) {
   try {
