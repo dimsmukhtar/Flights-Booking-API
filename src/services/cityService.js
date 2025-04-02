@@ -1,5 +1,5 @@
 const { CityRepository } = require("../repositories")
-const AppError = require("../utils/errors/appError")
+const { AppError, SequelizeError } = require("../utils/errors")
 
 const cityRepository = new CityRepository()
 
@@ -12,14 +12,32 @@ async function createCity(data) {
       error.name === "SequelizeValidationError" ||
       error.name === "SequelizeUniqueConstraintError"
     ) {
-      let explanation = []
-      error.errors.forEach((err) => {
-        explanation.push(err.message)
-      })
-      throw new AppError(explanation, 400)
+      SequelizeError(error)
     }
-    throw new AppError("Error while creating the city", 500)
+
+    throw new AppError(error.message, error.statusCode)
   }
 }
 
-module.exports = { createCity }
+async function getCities() {
+  try {
+    const cities = await cityRepository.getAll()
+    return cities
+  } catch (error) {
+    throw new AppError(error.message, error.statusCode)
+  }
+}
+
+async function getCity(id) {
+  try {
+    const city = await cityRepository.get(id)
+    if (!city) {
+      throw new AppError(`Error getting the city, id ${id} are not found`, 404)
+    }
+    return city
+  } catch (error) {
+    throw new AppError(error.message, error.statusCode)
+  }
+}
+
+module.exports = { createCity, getCities, getCity }

@@ -1,5 +1,5 @@
 const { AirplaneRepository } = require("../repositories")
-const AppError = require("../utils/errors/appError")
+const { AppError, SequelizeError } = require("../utils/errors")
 
 const airplaneRepository = new AirplaneRepository()
 
@@ -9,13 +9,9 @@ async function createAirplane(data) {
     return airplane
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
-      let explanation = []
-      error.errors.forEach((err) => {
-        explanation.push(err.message)
-      })
-      throw new AppError(explanation, 400)
+      SequelizeError(error)
     }
-    throw new AppError("Error while creating the airplane", 500)
+    throw new AppError(error.message, error.statusCode)
   }
 }
 
@@ -24,42 +20,46 @@ async function getAirplanes() {
     const airplanes = await airplaneRepository.getAll()
     return airplanes
   } catch (error) {
-    throw new AppError("Error while fetching the airplanes", 500)
+    throw new AppError(error.message, error.statusCode)
   }
 }
 async function getAirplane(id) {
   try {
-    const airplane = await airplaneRepository.get(id, "Airplane")
+    const airplane = await airplaneRepository.get(id)
+    if (!airplane) {
+      throw new AppError(`Error getting the airplane, id ${id} are not found`, 404)
+    }
     return airplane
   } catch (error) {
-    if (error.statusCode === 404) {
-      throw new AppError(error, error.statusCode)
-    }
-    throw new AppError("Error while fetching the airplane", 500)
+    throw new AppError(error.message, error.statusCode)
   }
 }
 
 async function deleteAirplane(id) {
   try {
-    const airplane = await airplaneRepository.destroy(id, "Airplane")
+    const airplane = await airplaneRepository.destroy(id)
+    if (!airplane) {
+      throw new AppError(`Error deleting the airplane, id ${id} are not found`, 404)
+    }
     return airplane
   } catch (error) {
-    if (error.statusCode === 404) {
-      throw new AppError(error, error.statusCode)
-    }
-    throw new AppError("Error while deleting the airplane", 500)
+    console.log(error)
+    throw new AppError(error.message, error.statusCode)
   }
 }
 
 async function updateAirplane(id, data) {
   try {
-    const airplane = await airplaneRepository.update(id, data, "Airplane")
+    const airplane = await airplaneRepository.update(id, data)
+    if (!airplane) {
+      throw new AppError(`Error updating the airplane, id ${id} are not found`, 404)
+    }
     return airplane
   } catch (error) {
-    if (error.statusCode === 404) {
-      throw new AppError(error, error.statusCode)
+    if (error.name === "SequelizeValidationError") {
+      SequelizeError(error)
     }
-    throw new AppError("Error while deleting the airplane", 500)
+    throw new AppError(error.message, error.statusCode)
   }
 }
 
