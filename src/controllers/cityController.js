@@ -35,9 +35,33 @@ async function getCity(req, res, next) {
     return next(new AppError(error.message, error.statusCode))
   }
 }
+async function deleteCity(req, res, next) {
+  try {
+    const city = await CityService.deleteCity(req.params.id)
+    SuccessResponse.data = city
+    SuccessResponse.message = `Successfully delete city with id ${req.params.id}`
+    return res.status(200).json(SuccessResponse)
+  } catch (error) {
+    return next(new AppError(error.message, error.statusCode))
+  }
+}
+async function updateCity(req, res, next) {
+  try {
+    const city = await CityService.updateCity(req.params.id, {
+      name: req.body.name,
+    })
+    SuccessResponse.data = city
+    SuccessResponse.message = `Successfully updated city with id ${req.params.id}`
+    return res.status(200).json(SuccessResponse)
+  } catch (error) {
+    return next(new AppError(error.message, error.statusCode))
+  }
+}
 
 module.exports = {
   createCity,
   getCities,
   getCity,
+  deleteCity,
+  updateCity,
 }

@@ -1,5 +1,5 @@
 const { CityRepository } = require("../repositories")
-const { AppError, SequelizeError } = require("../utils/errors")
+const { SequelizeError } = require("../utils/errors")
 
 const cityRepository = new CityRepository()
 
@@ -15,7 +15,7 @@ async function createCity(data) {
       SequelizeError(error)
     }
 
-    throw new AppError(error.message, error.statusCode)
+    throw new Error(error.message, error.statusCode)
   }
 }
 
@@ -24,27 +24,35 @@ async function getCities() {
     const cities = await cityRepository.getAll()
     return cities
   } catch (error) {
-    throw new AppError(error.message, error.statusCode)
+    throw new Error(error.message, error.statusCode)
   }
 }
 
 async function getCity(id) {
   try {
     const city = await cityRepository.get(id)
-    if (!city) {
-      throw new AppError(`Error getting the city, id ${id} are not found`, 404)
-    }
     return city
   } catch (error) {
-    throw new AppError(error.message, error.statusCode)
+    throw new Error(error.message, error.statusCode)
   }
 }
 
 async function deleteCity(id) {
   try {
+    const city = await cityRepository.destroy(id)
+    return city
   } catch (error) {
-    throw new AppError(error.message, error.statusCode)
+    throw new Error(error.message, error.statusCode)
   }
 }
 
-module.exports = { createCity, getCities, getCity }
+async function updateCity(id, data) {
+  try {
+    const city = await cityRepository.update(id, data)
+    return city
+  } catch (error) {
+    throw new Error(error.message, error.statusCode)
+  }
+}
+
+module.exports = { createCity, getCities, getCity, deleteCity, updateCity }
