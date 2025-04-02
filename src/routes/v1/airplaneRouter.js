@@ -2,13 +2,10 @@ const router = require("express").Router()
 
 const { Airplane } = require("../../database/models")
 const { AirplaneController } = require("../../controllers")
-const { AirplaneMiddlewares, ValidateId } = require("../../middlewares")
+const { ValidateId } = require("../../middlewares")
 
 // api/v1/airplanes
-router
-  .route("/")
-  .post(AirplaneMiddlewares.validateCreateRequest, AirplaneController.createAirplane)
-  .get(AirplaneController.getAirplanes)
+router.route("/").post(AirplaneController.createAirplane).get(AirplaneController.getAirplanes)
 
 router
   .route("/:id")
