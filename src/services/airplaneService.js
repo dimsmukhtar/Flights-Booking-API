@@ -19,7 +19,7 @@ async function getAirplanes() {
     const airplanes = await airplaneRepository.getAll()
     return airplanes
   } catch (error) {
-    throw SequelizeError(error, "Error while creating airplane", error.statusCode)
+    throw SequelizeError(error, "Error while fetching all airplanes", error.statusCode)
   }
 }
 async function getAirplane(id) {
@@ -27,7 +27,7 @@ async function getAirplane(id) {
     const airplane = await airplaneRepository.get(id)
     return airplane
   } catch (error) {
-    throw SequelizeError(error, "Error while creating airplane", error.statusCode)
+    throw SequelizeError(error, "Error while fetching a airplane", error.statusCode)
   }
 }
 
@@ -36,7 +36,7 @@ async function deleteAirplane(id) {
     const airplane = await airplaneRepository.destroy(id)
     return airplane
   } catch (error) {
-    throw SequelizeError(error, "Error while creating airplane", error.statusCode)
+    throw SequelizeError(error, "Error while deleting a airplane", error.statusCode)
   }
 }
 
@@ -50,7 +50,7 @@ async function updateAirplane(id, data) {
     const airplane = await airplaneRepository.update(id, data)
     return airplane
   } catch (error) {
-    throw SequelizeError(error, "Error while creating airplane", error.statusCode)
+    throw SequelizeError(error, "Error while updating a airplane", error.statusCode)
   }
 }
 

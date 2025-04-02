@@ -1,5 +1,11 @@
 const { AirplaneService } = require("../services")
-const { SuccessResponse } = require("../utils/common")
+const {
+  successResponseCreate,
+  successResponseGetAll,
+  successResponseGet,
+  successResponseDelete,
+  successResponseUpdate,
+} = require("../utils/common/crudSuccessResponse")
 const AppError = require("../utils/errors/appError")
 
 async function createAirplane(req, res, next) {
@@ -8,9 +14,8 @@ async function createAirplane(req, res, next) {
       modelNumber: req.body.modelNumber,
       capacity: req.body.capacity,
     })
-    SuccessResponse.data = airplane
-    SuccessResponse.message = "Successfully created an airplane"
-    return res.status(201).json(SuccessResponse)
+
+    return res.status(201).json(successResponseCreate(airplane, "airplane"))
   } catch (error) {
     return next(new AppError(error.message, error.statusCode))
   }
@@ -19,9 +24,7 @@ async function createAirplane(req, res, next) {
 async function getAirplanes(req, res, next) {
   try {
     const airplanes = await AirplaneService.getAirplanes()
-    SuccessResponse.data = airplanes
-    SuccessResponse.message = "Successfully fetched all airplanes"
-    return res.status(200).json(SuccessResponse)
+    return res.status(200).json(successResponseGetAll(airplanes, "airplanes"))
   } catch (error) {
     return next(new AppError(error.message, error.statusCode))
   }
@@ -29,9 +32,7 @@ async function getAirplanes(req, res, next) {
 async function getAirplane(req, res, next) {
   try {
     const airplane = await AirplaneService.getAirplane(req.params.id)
-    SuccessResponse.data = airplane
-    SuccessResponse.message = `Successfully fetched airplane with id ${req.params.id}`
-    return res.status(200).json(SuccessResponse)
+    return res.status(200).json(successResponseGet(airplane, "airplane", req.params.id))
   } catch (error) {
     return next(new AppError(error.message, error.statusCode))
   }
@@ -40,9 +41,8 @@ async function getAirplane(req, res, next) {
 async function deleteAirplane(req, res, next) {
   try {
     const airplane = await AirplaneService.deleteAirplane(req.params.id)
-    SuccessResponse.data = airplane
-    SuccessResponse.message = `Successfully deleted airplane with id ${req.params.id}`
-    return res.status(200).json(SuccessResponse)
+
+    return res.status(200).json(successResponseDelete(airplane, "airplane", req.params.id))
   } catch (error) {
     return next(new AppError(error.message, error.statusCode))
   }
@@ -54,9 +54,8 @@ async function updateAirplane(req, res, next) {
       modelNumber: req.body.modelNumber,
       capacity: req.body.capacity,
     })
-    SuccessResponse.data = airplane
-    SuccessResponse.message = `Successfully updated airplane with id ${req.params.id}`
-    return res.status(200).json(SuccessResponse)
+
+    return res.status(200).json(successResponseUpdate(airplane, "airplane", req.params.id))
   } catch (error) {
     return next(new AppError(error.message, error.statusCode))
   }
