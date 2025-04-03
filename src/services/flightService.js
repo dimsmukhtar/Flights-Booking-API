@@ -47,6 +47,11 @@ async function getALlFlights(query) {
       [Op.and]: [{ [Op.gte]: priceFrom }, { [Op.lte]: priceTo }],
     }
   }
+  if (query.tripDate) {
+    customFilter.departureTime = {
+      [Op.gte]: query.tripDate,
+    }
+  }
   try {
     const flights = await flightRepository.getALlFlights(customFilter)
     return flights
