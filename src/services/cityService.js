@@ -1,6 +1,7 @@
 const { CityRepository } = require("../repositories")
 const AppError = require("../utils/errors/appError")
 const SequelizeError = require("../utils/errors/sequelizeError")
+const { Airport } = require("../database/models")
 
 const cityRepository = new CityRepository()
 
@@ -25,7 +26,7 @@ async function getCities() {
 
 async function getCity(id) {
   try {
-    const city = await cityRepository.get(id)
+    const city = await cityRepository.get(id, Airport)
     return city
   } catch (error) {
     throw SequelizeError(error, "Error while fetching a city", error.statusCode)
