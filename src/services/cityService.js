@@ -1,13 +1,13 @@
 const { CityRepository } = require("../repositories")
-const AppError = require("../utils/errors/appError")
 const SequelizeError = require("../utils/errors/sequelizeError")
 const { Airport } = require("../database/models")
+const { validateEmptyValueCity } = require("../utils/common/validateEmptyValue")
 
 const cityRepository = new CityRepository()
 
 async function createCity(data) {
   try {
-    if (data.name === "") throw new AppError("Cannot create an empty string city", 400)
+    validateEmptyValueCity(data)
     const city = await cityRepository.create(data)
     return city
   } catch (error) {
@@ -44,10 +44,7 @@ async function deleteCity(id) {
 
 async function updateCity(id, data) {
   try {
-    if (data.name === undefined)
-      throw new AppError("Cannot update city because no name is provided", 400)
-
-    if (data.name === "") throw new AppError("Cannot update with an empty string city", 400)
+    validateEmptyValueCity(data)
     const city = await cityRepository.update(id, data)
     return city
   } catch (error) {

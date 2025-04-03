@@ -1,16 +1,13 @@
 const { AirportRepository } = require("../repositories")
 const SequelizeError = require("../utils/errors/sequelizeError")
-const AppError = require("../utils/errors/appError")
 const { Flight } = require("../database/models")
+const { validateEmptyValueAirport } = require("../utils/common/validateEmptyValue")
 
 const airportRepository = new AirportRepository()
 
 async function createAirport(data) {
   try {
-    const requiredFields = ["name", "code", "address", "cityId"]
-    if (requiredFields.some((field) => data[field] === "")) {
-      throw new AppError("Cannot create with an empty string airport", 400)
-    }
+    validateEmptyValueAirport(data)
     const airport = await airportRepository.create(data)
     return airport
   } catch (error) {
@@ -50,11 +47,7 @@ async function deleteAirport(id) {
 
 async function updateAirport(id, data) {
   try {
-    const requiredFields = ["name", "code", "address", "cityId"]
-    if (requiredFields.some((field) => data[field] === "")) {
-      throw new AppError("Cannot update with an empty string airport", 400)
-    }
-
+    validateEmptyValueAirport(data)
     const airport = await airportRepository.update(id, data)
     return airport
   } catch (error) {

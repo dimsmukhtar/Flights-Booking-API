@@ -1,7 +1,6 @@
 const { FlightService } = require("../services")
 const { successResponse } = require("../utils/common/successResponse")
 
-const SequelizeError = require("../utils/errors/sequelizeError")
 const AppError = require("../utils/errors/appError")
 
 async function createFlight(req, res, next) {

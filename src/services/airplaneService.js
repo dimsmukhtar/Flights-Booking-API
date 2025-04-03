@@ -1,13 +1,13 @@
 const { AirplaneRepository } = require("../repositories")
 const SequelizeError = require("../utils/errors/sequelizeError")
-const AppError = require("../utils/errors/appError")
 const { Flight } = require("../database/models")
+const { validateEmptyValueAirplane } = require("../utils/common/validateEmptyValue")
 
 const airplaneRepository = new AirplaneRepository()
 
 async function createAirplane(data) {
   try {
-    if (data.modelNumber === "") throw new AppError("Cannot create an empty string airplane", 400)
+    validateEmptyValueAirplane(data)
     const airplane = await airplaneRepository.create(data)
     return airplane
   } catch (error) {
@@ -43,11 +43,7 @@ async function deleteAirplane(id) {
 
 async function updateAirplane(id, data) {
   try {
-    if (data.modelNumber === undefined)
-      throw new AppError("Cannot update airplane because no modelNumber is provided", 400)
-
-    if (data.modelNumber === "")
-      throw new AppError("Cannot update with an empty string airplane", 400)
+    validateEmptyValueAirplane(data)
     const airplane = await airplaneRepository.update(id, data)
     return airplane
   } catch (error) {
