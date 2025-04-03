@@ -15,8 +15,10 @@ class CrudRepository {
 
     return response
   }
-  async get(data, model) {
-    const response = await this.model.findByPk(data, model ? { include: model } : {})
+  async get(data, includes = []) {
+    const response = await this.model.findByPk(data, {
+      include: includes,
+    })
     return response
   }
   async getAll() {

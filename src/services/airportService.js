@@ -1,6 +1,7 @@
 const { AirportRepository } = require("../repositories")
 const SequelizeError = require("../utils/errors/sequelizeError")
 const AppError = require("../utils/errors/appError")
+const { Flight } = require("../database/models")
 
 const airportRepository = new AirportRepository()
 
@@ -28,7 +29,10 @@ async function getAirports() {
 
 async function getAirport(id) {
   try {
-    const airport = await airportRepository.get(id)
+    const airport = await airportRepository.get(id, [
+      { model: Flight, as: "departingFlights" },
+      { model: Flight, as: "arrivingFlights" },
+    ])
     return airport
   } catch (error) {
     throw SequelizeError(error, "Error while fetching a airport", error.statusCode)

@@ -25,7 +25,7 @@ async function getAirplanes() {
 }
 async function getAirplane(id) {
   try {
-    const airplane = await airplaneRepository.get(id, Flight)
+    const airplane = await airplaneRepository.get(id, [{ model: Flight }])
     return airplane
   } catch (error) {
     throw SequelizeError(error, "Error while fetching a airplane", error.statusCode)
