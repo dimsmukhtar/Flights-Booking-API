@@ -1,4 +1,4 @@
-const { ValidationError, UniqueConstraintError } = require("sequelize")
+const { ValidationError, UniqueConstraintError, ForeignKeyConstraintError } = require("sequelize")
 const AppError = require("../../utils/errors/appError")
 
 module.exports = (error, message, statusCode) => {
@@ -9,7 +9,11 @@ module.exports = (error, message, statusCode) => {
 
   if (isValidationError) {
     const errorMessages = error.errors.map((err) => err.message)
-    errorMessage = errorMessages
+    errorMessage = `${errorMessages.join(", ")}`
+  }
+
+  if (error instanceof ForeignKeyConstraintError) {
+    errorMessage = "Invalid foreign key: The referenced record does not exist in the database."
   }
 
   const parsedStatusCode = isValidationError ? 400 : statusCode

@@ -1,12 +1,14 @@
-const { AirplaneRepository } = require("../repositories")
+const { AirplaneRepository, CityRepository } = require("../repositories")
 const SequelizeError = require("../utils/errors/sequelizeError")
 const AppError = require("../utils/errors/appError")
 
 const airplaneRepository = new AirplaneRepository()
+const cityRepository = new CityRepository()
 
 async function createAirplane(data) {
   try {
     if (data.modelNumber === "") throw new AppError("Cannot create an empty string airplane", 400)
+    const city = await cityRepository.get()
     const airplane = await airplaneRepository.create(data)
     return airplane
   } catch (error) {
