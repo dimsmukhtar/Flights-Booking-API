@@ -32,45 +32,28 @@ async function createFlight(data) {
   }
 }
 
-// async function getAirports() {
-//   try {
-//     const airports = await airportRepository.getAll()
-//     return airports
-//   } catch (error) {
-//     throw SequelizeError(error, "Error while fetching all airports", error.statusCode)
-//   }
-// }
+async function getALlFlights(query) {
+  let customFilter = {}
+  if (query.trips) {
+    const [departureAirportCode, arrivalAirportCode] = query.trips.split("-")
+    customFilter.departureAirportCode = departureAirportCode
+    customFilter.arrivalAirportCode = arrivalAirportCode
+  }
+  try {
+    const flights = await flightRepository.getALlFlights(customFilter)
+    return flights
+  } catch (error) {
+    throw SequelizeError(error, "Error while fetching all flights", error.statusCode)
+  }
+}
 
-// async function getAirport(id) {
-//   try {
-//     const airport = await airportRepository.get(id)
-//     return airport
-//   } catch (error) {
-//     throw SequelizeError(error, "Error while fetching a airport", error.statusCode)
-//   }
-// }
+async function updateFlight(id, data) {
+  try {
+    const flight = await flightRepository.update(id, data)
+    return flight
+  } catch (error) {
+    throw SequelizeError(error, "Error while updating flight", error.statusCode)
+  }
+}
 
-// async function deleteAirport(id) {
-//   try {
-//     const airport = await airportRepository.destroy(id)
-//     return airport
-//   } catch (error) {
-//     throw SequelizeError(error, "Error while deleting a airport", error.statusCode)
-//   }
-// }
-
-// async function updateAirport(id, data) {
-//   try {
-//     const requiredFields = ["name", "code", "address", "cityId"]
-//     if (requiredFields.some((field) => data[field] === "")) {
-//       throw new AppError("Cannot update with an empty string airport", 400)
-//     }
-
-//     const airport = await airportRepository.update(id, data)
-//     return airport
-//   } catch (error) {
-//     throw SequelizeError(error, "Error while updating airport", error.statusCode)
-//   }
-// }
-
-module.exports = { createFlight }
+module.exports = { createFlight, getALlFlights, updateFlight }
