@@ -1,11 +1,5 @@
 const AppError = require("../utils/errors/appError")
-const {
-  successResponseCreate,
-  successResponseGetAll,
-  successResponseGet,
-  successResponseDelete,
-  successResponseUpdate,
-} = require("../utils/common/crudSuccessResponse")
+const { successResponse } = require("../utils/common/successResponse")
 const { AirportService } = require("../services")
 
 async function createAirport(req, res, next) {
@@ -16,7 +10,7 @@ async function createAirport(req, res, next) {
       address: req.body.address,
       cityId: req.body.cityId,
     })
-    return res.status(201).json(successResponseCreate(airport, "airport"))
+    return successResponse(res, "Successfully create a airport", airport, 201)
   } catch (error) {
     return next(new AppError(error.message, error.statusCode))
   }
@@ -25,7 +19,7 @@ async function createAirport(req, res, next) {
 async function getAirports(req, res, next) {
   try {
     const airports = await AirportService.getAirports()
-    return res.status(200).json(successResponseGetAll(airports, "airports"))
+    return successResponse(res, "Successfully fetch all airports", airports)
   } catch (error) {
     return next(new AppError(error.message, error.statusCode))
   }
@@ -34,7 +28,7 @@ async function getAirport(req, res, next) {
   try {
     const airport = await AirportService.getAirport(req.params.id)
 
-    return res.status(200).json(successResponseGet(airport, "airport", req.params.id))
+    return successResponse(res, "Successfully fetch a airport", airport)
   } catch (error) {
     return next(new AppError(error.message, error.statusCode))
   }
@@ -43,7 +37,7 @@ async function getAirport(req, res, next) {
 async function deleteAirport(req, res, next) {
   try {
     const airport = await AirportService.deleteAirport(req.params.id)
-    return res.status(200).json(successResponseDelete(airport, "airport", req.params.id))
+    return successResponse(res, "Successfully delete a airport", airport)
   } catch (error) {
     return next(new AppError(error.message, error.statusCode))
   }
@@ -56,7 +50,7 @@ async function updateAirport(req, res, next) {
       address: req.body.address,
       cityId: req.body.cityId,
     })
-    return res.status(200).json(successResponseUpdate(airport, "airport", req.params.id))
+    return successResponse(res, "Successfully update a airport", airport)
   } catch (error) {
     return next(new AppError(error.message, error.statusCode))
   }

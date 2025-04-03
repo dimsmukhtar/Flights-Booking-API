@@ -1,11 +1,5 @@
 const { AirplaneService } = require("../services")
-const {
-  successResponseCreate,
-  successResponseGetAll,
-  successResponseGet,
-  successResponseDelete,
-  successResponseUpdate,
-} = require("../utils/common/crudSuccessResponse")
+const { successResponse } = require("../utils/common/successResponse")
 const AppError = require("../utils/errors/appError")
 
 async function createAirplane(req, res, next) {
@@ -15,7 +9,7 @@ async function createAirplane(req, res, next) {
       capacity: req.body.capacity,
     })
 
-    return res.status(201).json(successResponseCreate(airplane, "airplane"))
+    return successResponse(res, "Successfully create a airplane", airplane, 201)
   } catch (error) {
     return next(new AppError(error.message, error.statusCode))
   }
@@ -24,7 +18,7 @@ async function createAirplane(req, res, next) {
 async function getAirplanes(req, res, next) {
   try {
     const airplanes = await AirplaneService.getAirplanes()
-    return res.status(200).json(successResponseGetAll(airplanes, "airplanes"))
+    return successResponse(res, "Successfully fetch all airplanes", airplanes)
   } catch (error) {
     return next(new AppError(error.message, error.statusCode))
   }
@@ -32,7 +26,7 @@ async function getAirplanes(req, res, next) {
 async function getAirplane(req, res, next) {
   try {
     const airplane = await AirplaneService.getAirplane(req.params.id)
-    return res.status(200).json(successResponseGet(airplane, "airplane", req.params.id))
+    return successResponse(res, "Successfully fetch a airplane", airplane)
   } catch (error) {
     return next(new AppError(error.message, error.statusCode))
   }
@@ -42,7 +36,7 @@ async function deleteAirplane(req, res, next) {
   try {
     const airplane = await AirplaneService.deleteAirplane(req.params.id)
 
-    return res.status(200).json(successResponseDelete(airplane, "airplane", req.params.id))
+    return successResponse(res, "Successfully delete a airplane", airplane)
   } catch (error) {
     return next(new AppError(error.message, error.statusCode))
   }
@@ -55,7 +49,7 @@ async function updateAirplane(req, res, next) {
       capacity: req.body.capacity,
     })
 
-    return res.status(200).json(successResponseUpdate(airplane, "airplane", req.params.id))
+    return successResponse(res, "Successfully update a airplane", airplane)
   } catch (error) {
     return next(new AppError(error.message, error.statusCode))
   }
