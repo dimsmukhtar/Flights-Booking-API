@@ -1,3 +1,5 @@
+const { Op } = require("sequelize")
+
 const { FlightRepository } = require("../repositories")
 const SequelizeError = require("../utils/errors/sequelizeError")
 const AppError = require("../utils/errors/appError")
@@ -38,6 +40,12 @@ async function getALlFlights(query) {
     const [departureAirportCode, arrivalAirportCode] = query.trips.split("-")
     customFilter.departureAirportCode = departureAirportCode
     customFilter.arrivalAirportCode = arrivalAirportCode
+  }
+  if (query.price) {
+    const [priceFrom, priceTo] = query.price.split("-")
+    customFilter.price = {
+      [Op.and]: [{ [Op.gte]: priceFrom }, { [Op.lte]: priceTo }],
+    }
   }
   try {
     const flights = await flightRepository.getALlFlights(customFilter)
