@@ -27,8 +27,8 @@ async function getAirports() {
 async function getAirport(id) {
   try {
     const airport = await airportRepository.get(id, [
-      { model: Flight, as: "departingFlights" },
-      { model: Flight, as: "arrivingFlights" },
+      { model: Flight, as: "departureFlights" },
+      { model: Flight, as: "arrivalFlights" },
     ])
     return airport
   } catch (error) {

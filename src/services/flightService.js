@@ -4,7 +4,7 @@ const AppError = require("../utils/errors/appError")
 const { compareTime } = require("../utils/helpers/dateTimeHelper")
 const { flightsFilter, flightsOrder } = require("../utils/common/filtering")
 const { validateEmptyValueFlights } = require("../utils/common/validateEmptyValue")
-const { Airplane, Airport } = require("../database/models")
+const { Airplane, Airport, City } = require("../database/models")
 
 const flightRepository = new FlightRepository()
 
@@ -35,10 +35,33 @@ async function getALlFlights(query) {
 async function getFlight(id) {
   try {
     const flights = await flightRepository.get(id, [
-      { model: Airplane },
-      { model: Airport, as: "departingFlights" },
-      { model: Airport, as: "arrivingFlights" },
+      {
+        model: Airplane,
+        as: "airplaneDetail",
+        required: true,
+      }, // required: true bisa dilakukan untuk inner join fungsinya akan mereturn hasil yang memiliki data association saja, jika tidak memiliki data association maka tidak ikut di return
+      {
+        model: Airport,
+        as: "departureAirport",
+        required: true,
+        include: { model: City, as: "city" },
+      },
+      {
+        model: Airport,
+        as: "arrivalAirport",
+        required: true,
+        include: { model: City, as: "city" },
+      },
     ])
+    // jika tidak memakai sourceKey dan targetKey di model airport dan flights. maka bisa dilakukan seperti ini
+    // const flights = await flightRepository.get(id, [
+    //   { model: Airplane, required: true },
+    //   { model: Airport, as: "departingFlights", required: true, on:{
+    //     col1: Sequelize.where("Flights.departureAirportCode"), "=", Sequelize.col("Airport.code")
+    //   } },
+    //   { model: Airport, as: "arrivingFlights", required: true,
+    //     col1: Sequelize.where("Flights.arrivalAirportCode"), "=", Sequelize.col("Airport.code") },
+    // ])
     return flights
   } catch (error) {
     throw SequelizeError(error, "Error while fetching a flights", error.statusCode)

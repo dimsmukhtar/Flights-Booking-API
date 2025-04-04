@@ -26,7 +26,10 @@ async function getCities() {
 
 async function getCity(id) {
   try {
-    const city = await cityRepository.get(id, Airport)
+    const city = await cityRepository.get(id, {
+      model: Airport,
+      as: "airportDetail",
+    })
     return city
   } catch (error) {
     throw SequelizeError(error, "Error while fetching a city", error.statusCode)

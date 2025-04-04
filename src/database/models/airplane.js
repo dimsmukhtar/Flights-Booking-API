@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
           name: "airplaneId",
           allowNull: false,
         },
+        as: "flights",
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       })
