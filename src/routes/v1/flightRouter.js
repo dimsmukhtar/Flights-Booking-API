@@ -6,6 +6,9 @@ const { ValidateId } = require("../../middlewares")
 
 router.route("/").post(FlightController.createFlight).get(FlightController.getALlFlights)
 
-router.route("/:id").patch(ValidateId(Flight), FlightController.updateFlight)
+router
+  .route("/:id")
+  .patch(ValidateId(Flight), FlightController.updateFlight)
+  .get(ValidateId(Flight), FlightController.getFlight)
 
 module.exports = router

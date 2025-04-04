@@ -4,6 +4,7 @@ const AppError = require("../utils/errors/appError")
 const { compareTime } = require("../utils/helpers/dateTimeHelper")
 const { flightsFilter, flightsOrder } = require("../utils/common/filtering")
 const { validateEmptyValueFlights } = require("../utils/common/validateEmptyValue")
+const { Airplane, Airport } = require("../database/models")
 
 const flightRepository = new FlightRepository()
 
@@ -31,6 +32,19 @@ async function getALlFlights(query) {
   }
 }
 
+async function getFlight(id) {
+  try {
+    const flights = await flightRepository.get(id, [
+      { model: Airplane },
+      { model: Airport, as: "departingFlights" },
+      { model: Airport, as: "arrivingFlights" },
+    ])
+    return flights
+  } catch (error) {
+    throw SequelizeError(error, "Error while fetching a flights", error.statusCode)
+  }
+}
+
 async function updateFlight(id, data) {
   try {
     validateEmptyValueFlights(data)
@@ -41,4 +55,4 @@ async function updateFlight(id, data) {
   }
 }
 
-module.exports = { createFlight, getALlFlights, updateFlight }
+module.exports = { createFlight, getALlFlights, updateFlight, getFlight }

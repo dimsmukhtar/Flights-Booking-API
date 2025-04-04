@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false,
         },
         targetKey: "code",
+        as: "departingFlights",
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       })
@@ -31,7 +32,9 @@ module.exports = (sequelize, DataTypes) => {
           name: "arrivalAirportCode",
           allowNull: false,
         },
+
         targetKey: "code",
+        as: "arrivingFlights",
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       })
