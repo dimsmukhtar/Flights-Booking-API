@@ -3,4 +3,5 @@ module.exports = {
   CityController: require("./cityController"),
   AirportController: require("./airportController"),
   FlightController: require("./flightController"),
+  BookingController: require("./bookingController"),
 }
