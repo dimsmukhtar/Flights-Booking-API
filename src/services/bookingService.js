@@ -37,6 +37,7 @@ async function createBooking(data) {
   }
 }
 
+// fake payment
 async function makeFakePayment(id) {
   const transaction = await db.sequelize.transaction()
   try {
@@ -53,7 +54,18 @@ async function makeFakePayment(id) {
   }
 }
 
+async function checkExpiresBooking() {
+  try {
+    const expiresAt = new Date(Date.now() - 1000 * 300) // 5 minutes ago
+    const response = await bookingRepository.cancelBooking(expiresAt)
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 module.exports = {
   createBooking,
   makeFakePayment,
+  checkExpiresBooking,
 }
