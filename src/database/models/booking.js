@@ -40,7 +40,6 @@ module.exports = (sequelize, DataTypes) => {
         // total seats yang user pesan
         type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: 1,
       },
     },
     {

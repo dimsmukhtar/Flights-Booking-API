@@ -78,18 +78,4 @@ async function updateFlight(id, data) {
   }
 }
 
-async function updateSeat(data) {
-  try {
-    if (data.seats === undefined) throw new AppError("seats is required", 400)
-    const response = await flightRepository.updateRemainingSeats(
-      data.flightId,
-      data.seats,
-      data.decrement
-    )
-    return response
-  } catch (error) {
-    throw SequelizeError(error, "Error while updating totalOfSeats flight", error.statusCode)
-  }
-}
-
-module.exports = { createFlight, getALlFlights, updateFlight, getFlight, updateSeat }
+module.exports = { createFlight, getALlFlights, updateFlight, getFlight }
