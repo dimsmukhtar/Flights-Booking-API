@@ -19,6 +19,15 @@ class BookingRepository extends CrudRepository {
     await flight.decrement("totalSeats", { by: totalSeats }, { transaction: transaction })
     return flight
   }
+
+  async updateBooking(id, data, transaction) {
+    const response = await this.model.update(
+      data,
+      { where: { id: id } },
+      { transaction: transaction }
+    )
+    return response
+  }
 }
 
 module.exports = BookingRepository

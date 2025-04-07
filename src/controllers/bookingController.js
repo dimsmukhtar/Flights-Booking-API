@@ -15,6 +15,16 @@ async function createBooking(req, res, next) {
   }
 }
 
+async function makeFakePayment(req, res, next) {
+  try {
+    const payment = await BookingService.makeFakePayment(req.params.id)
+    return successResponse(res, "Successfully create a payment", payment, 201)
+  } catch (error) {
+    return next(new AppError(error.message, error.statusCode))
+  }
+}
+
 module.exports = {
   createBooking,
+  makeFakePayment,
 }
